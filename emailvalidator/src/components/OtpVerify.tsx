@@ -9,12 +9,28 @@ export default function OtpVerify() {
 
     const inputRef = useRef(null)
 
-    const handleOtpResend = () => {
+    const handleOtpResend = async () => {
         setOtpResend(true)
 
-        setTimeout(() => {
-            setOtpResend(false)
-        }, 5000)
+        try {
+            setTimeout(() => {
+                setOtpResend(false)
+            }, 5000)
+
+            const email = localStorage.getItem("email")
+
+            const response = await axios.post(`${BACKEND_URL}/api/resendOtp`, {
+                email : email
+            })
+
+            const data = response.data;
+
+            alert(data.message)
+        } catch (error) {
+            console.log(error)
+        }
+
+       
     }
 
 
