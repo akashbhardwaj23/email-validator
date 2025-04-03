@@ -19,6 +19,12 @@ export default function SignUp(){
             const password = passwordRef.current.value
 
             try {
+
+                if(!email || !password){
+                    alert("Fill The Details")
+                    return 
+                }
+
                 const response = await axios.post(`${BACKEND_URL}/api/login`, {
                     email,
                     password
@@ -52,8 +58,13 @@ export default function SignUp(){
                 <span>Forgot Password</span></div>
                 <Input placeholder="password" ref={passwordRef} />
             </div>
-            <div className="flex flex-col mx-auto w-96">
+            <div className="flex flex-col mx-auto w-96 mb-4">
                 <Button onClick={handleSignUp}>SignUp</Button>
+            </div>
+            
+            <div className="flex justify-center">
+                <p>Have an Account</p>
+                <span onClick={() => navigate({to : "/signin"})} className="underline cursor-pointer ml-2">SignIn</span>
             </div>
         </div>
       </div>

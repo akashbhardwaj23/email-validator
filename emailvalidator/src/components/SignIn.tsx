@@ -18,6 +18,12 @@ export default function SignIn() {
             const password = passwordRef.current.value
 
             try {
+
+                if(!email || !password){
+                    alert("Fill The Details")
+                    return 
+                }
+
                 const response = await axios.post(`${BACKEND_URL}/api/login`, {
                     email : email,
                     password

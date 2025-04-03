@@ -7,12 +7,14 @@ import {
   createRoute,
   createRouter,
   Outlet,
+  redirect,
   RouterProvider,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import OtpVerify from "./components/OtpVerify.tsx";
 import SignIn from "./components/SignIn.tsx";
 import SignUp from "./components/SignUp.tsx";
+import DashBoard from "./Dashboard.tsx";
 
 const RootRoute = createRootRoute({
   component: () => (
@@ -57,7 +59,23 @@ const OtpRoute = createRoute({
   )
 })
 
-const routeTree = RootRoute.addChildren([IndexRoute,SignInRoute, SignUpRoute, OtpRoute]);
+
+const DashBoardRoute = createRoute({
+  getParentRoute : () => RootRoute,
+  beforeLoad : () => {
+    const isOtpValid = localStorage.getItem("verified")
+
+    if(!isOtpValid){
+      throw redirect({to : "/signin"})
+    }
+  },
+  path : "/dashboard",
+  component : () => (
+    <DashBoard />
+  )
+})
+
+const routeTree = RootRoute.addChildren([IndexRoute,SignInRoute, SignUpRoute, OtpRoute, DashBoardRoute]);
 
 const router = createRouter({ routeTree });
 

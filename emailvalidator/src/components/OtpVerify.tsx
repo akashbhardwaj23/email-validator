@@ -25,7 +25,11 @@ export default function OtpVerify() {
 
             const data = response.data;
 
+
+
+            localStorage.setItem("verified", data.isOtpValid)
             alert(data.message)
+
         } catch (error) {
             console.log(error)
         }
